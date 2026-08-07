@@ -1,12 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Assignments</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Stack Assignments</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:90%;
+    max-width:900px;
+    text-align:center;
+}
+
+h1{
+    color:#fff;
+    margin-bottom:30px;
+    font-size:40px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h2{
+    margin-bottom:15px;
+    color:#333;
+}
+
+.card a{
+    display:inline-block;
+    padding:10px 20px;
+    text-decoration:none;
+    background:#4f46e5;
+    color:#fff;
+    border-radius:8px;
+}
+
+.card a:hover{
+    background:#3730a3;
+}
+</style>
+
 </head>
 <body>
-    <h1>My Assignments</h1>
-    <a href="106_Assignment1/">Assignment 1</a><br>
-    <a href="106_Assignment3/">Assignment 3</a><br>
-    <a href="106_Assignment4/">Assignment 4</a>
+
+<div class="container">
+
+<h1>📚 Full Stack Assignments</h1>
+
+<div class="cards">
+
+<div class="card">
+<h2>Assignment 1</h2>
+<a href="106_Assignment1/index.html">Open</a>
+</div>
+
+<div class="card">
+<h2>Assignment 3</h2>
+<a href="106_Assignment3/index.html">Open</a>
+</div>
+
+<div class="card">
+<h2>Assignment 4</h2>
+<a href="106_Assignment4/index.html">Open</a>
+</div>
+
+</div>
+
+</div>
+
 </body>
 </html>
