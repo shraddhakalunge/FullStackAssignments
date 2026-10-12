@@ -1,0 +1,137 @@
+/* ---------- PAGE ---------- */
+
+body {
+    margin: 0;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #f8f5f0;
+}
+
+
+/* ---------- MAIN CONTAINER ---------- */
+
+.container {
+    width: 520px;
+    height: 520px;
+
+    position: relative;
+}
+
+
+/* ---------- HIDDEN TEXT ---------- */
+
+.text {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-family: Arial, sans-serif;
+    font-size: 55px;
+    font-weight: bold;
+
+    color: #333;
+
+    /* Hidden initially */
+    opacity: 0;
+
+    /* Makes the text fade in smoothly */
+    transition: opacity 0.8s ease;
+
+    z-index: 1;
+}
+
+
+/* ---------- FOUR BOXES ---------- */
+
+.box {
+    position: absolute;
+
+    width: 45%;
+    height: 45%;
+
+    /* Makes the 4 boxes clearly separate */
+    border-radius: 12px;
+
+    transition: transform 0.8s ease;
+
+    z-index: 2;
+}
+
+
+/* ---------- BOX 1 : TOP LEFT ---------- */
+
+.box1 {
+    top: 0;
+    left: 0;
+
+    background-color: #f6c6d8;
+}
+
+
+/* ---------- BOX 2 : TOP RIGHT ---------- */
+
+.box2 {
+    top: 0;
+    right: 0;
+
+    background-color: #c8e6c9;
+}
+
+
+/* ---------- BOX 3 : BOTTOM LEFT ---------- */
+
+.box3 {
+    bottom: 0;
+    left: 0;
+
+    background-color: #c8daf5;
+}
+
+
+/* ---------- BOX 4 : BOTTOM RIGHT ---------- */
+
+.box4 {
+    bottom: 0;
+    right: 0;
+
+    background-color: #f8dfa6;
+}
+
+
+/* ---------- HOVER EFFECT ---------- */
+
+
+/* Show the hidden word */
+
+.container:hover .text {
+    opacity: 1;
+}
+
+
+/* Move LEFT boxes to the left */
+
+.container:hover .box1 {
+    transform: translateX(-180px);
+}
+
+.container:hover .box3 {
+    transform: translateX(-180px);
+}
+
+
+/* Move RIGHT boxes to the right */
+
+.container:hover .box2 {
+    transform: translateX(180px);
+}
+
+.container:hover .box4 {
+    transform: translateX(180px);
+}
