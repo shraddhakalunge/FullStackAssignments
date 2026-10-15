@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 5 - Node.js & Express REST APIs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e1e2f, #2d1f47, #1b2838);
+      color: #f1f5f9;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 25px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover {
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 38px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a78bfa, #f472b6, #fb923c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .card h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .endpoint-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .endpoint-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Fira Code', monospace;
+      font-size: 15px;
+    }
+
+    .method {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .method.get { background: #059669; color: #fff; }
+    .method.post { background: #2563eb; color: #fff; }
+    .method.put { background: #d97706; color: #fff; }
+    .method.delete { background: #dc2626; color: #fff; }
+
+    .route {
+      color: #f8fafc;
+      font-weight: 500;
+    }
+
+    .desc {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .code-box {
+      background: #0f172a;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #64748b;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <a href="../index.html" class="back-btn">← Back to All Assignments</a>
+
+    <header>
+      <h1>⚙️ Assignment 5: RESTful APIs</h1>
+      <p>Node.js & Express API Development with MongoDB & In-Memory Data Storage</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('part-a')">📦 Part A: MongoDB & Mongoose</button>
+      <button class="tab-btn" onclick="switchTab('part-b')">⚡ Part B: In-Memory Array</button>
+    </div>
+
+    <!-- PART A -->
+    <div id="part-a" class="tab-content active">
+      <div class="card">
+        <h2>📦 Part A: MongoDB + Mongoose CRUD API</h2>
+        <p style="color:#94a3b8;">Full CRUD REST API connected to a local MongoDB database (<code>studentDB</code>) managing student records with Schema validation (<code>name</code>, <code>city</code>, <code>marks</code>).</p>
+
+        <div class="code-box">
+# How to run locally:
+cd "106_Assignment5/Part A"
+npm install
+node array.js
+# Runs on http://localhost:3000
+        </div>
+
+        <h3 style="margin-top:25px; font-size:18px;">API Endpoints</h3>
+        <div class="endpoint-list">
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="route">/students</span>
+            </div>
+            <div class="desc">Retrieves all student documents from MongoDB.</div>
+          </div>
+
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="route">/students</span>
+            </div>
+            <div class="desc">Creates and persists a new student in MongoDB.</div>
+            <div class="code-box">Body: { "name": "Shraddha", "city": "Pune", "marks": 95 }</div>
+          </div>
+
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method put">PUT</span>
+              <span class="route">/students/:id</span>
+            </div>
+            <div class="desc">Updates an existing student by MongoDB Object <code>_id</code>.</div>
+            <div class="code-box">Body: { "name": "Shraddha", "city": "Mumbai", "marks": 98 }</div>
+          </div>
+
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method delete">DELETE</span>
+              <span class="route">/students/:id</span>
+            </div>
+            <div class="desc">Deletes the student matching the specified MongoDB <code>_id</code>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART B -->
+    <div id="part-b" class="tab-content">
+      <div class="card">
+        <h2>⚡ Part B: In-Memory Array CRUD API</h2>
+        <p style="color:#94a3b8;">Lightweight Express REST API performing CRUD operations directly on an in-memory JavaScript array of students.</p>
+
+        <div class="code-box">
+# How to run locally:
+cd "106_Assignment5/Part B"
+npm install
+node server.js
+# Runs on http://localhost:3000
+        </div>
+
+        <h3 style="margin-top:25px; font-size:18px;">API Endpoints</h3>
+        <div class="endpoint-list">
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="route">/students</span>
+            </div>
+            <div class="desc">Retrieves all students currently stored in the in-memory array.</div>
+          </div>
+
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="route">/students</span>
+            </div>
+            <div class="desc">Pushes a new student JSON object to the array.</div>
+            <div class="code-box">Body: { "name": "John Doe", "roll": 101 }</div>
+          </div>
+
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method put">PUT</span>
+              <span class="route">/students/:index</span>
+            </div>
+            <div class="desc">Replaces the student element at the specified zero-based array index.</div>
+          </div>
+
+          <div class="endpoint-item">
+            <div class="endpoint-header">
+              <span class="method delete">DELETE</span>
+              <span class="route">/students/:index</span>
+            </div>
+            <div class="desc">Removes the student element at the specified array index via <code>splice()</code>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Full Stack Assignments • <b>Shraddha Kalunge</b>
+    </footer>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+  </script>
+</body>
+</html>
