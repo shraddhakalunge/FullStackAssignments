@@ -1,0 +1,255 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #eef2ff, #f8f9ff);
+  color: #252943;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.container {
+  width: 90%;
+  max-width: 550px;
+  margin: 70px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(49, 46, 129, 0.1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.header h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  color: #5546c7;
+}
+
+.header p {
+  margin: 0;
+  color: #8589a1;
+  font-size: 14px;
+}
+
+.todo-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.todo-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid #dedff0;
+  border-radius: 9px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.todo-form input:focus {
+  border-color: #7665e8;
+  box-shadow: 0 0 0 3px #7665e81c;
+}
+
+.todo-form button {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 9px;
+  background: #6d5ce7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.todo-form button:hover {
+  background: #5544cb;
+  transform: translateY(-1px);
+}
+
+.task-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 9px;
+  background: #f5f4ff;
+  color: #6b5bd4;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 13px;
+  border: 1px solid #ececf5;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.todo-list li:hover {
+  border-color: #c9c1ff;
+  background: #fcfbff;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.task-content input {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  accent-color: #6d5ce7;
+  cursor: pointer;
+}
+
+.task-content span {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.todo-list li.completed .task-content span {
+  color: #a0a2b2;
+  text-decoration: line-through;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.actions button {
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* Edit button */
+.edit-btn {
+  background: #eeecff;
+  color: #5c4acb;
+  border-color: #dcd6ff;
+}
+
+.edit-btn:hover {
+  background: #dcd6ff;
+  border-color: #c5bbff;
+}
+
+/* Delete button: subtle red by default */
+.actions .delete-btn {
+  background-color: #fff0f1 !important;
+  color: #d74659 !important;
+  border: 1px solid #ffdadd !important;
+  opacity: 1 !important;
+}
+
+.actions .delete-btn:hover {
+  background-color: #d74659 !important;
+  color: #ffffff !important;
+  border-color: #d74659 !important;
+}
+
+
+/* Empty state */
+.empty-state {
+  padding: 30px 10px;
+  text-align: center;
+}
+
+.empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
+  border-radius: 15px;
+  background: #eeecff;
+  color: #6d5ce7;
+  font-size: 25px;
+}
+
+.empty-state h3 {
+  margin: 5px 0;
+}
+
+.empty-state p {
+  margin: 8px 0;
+  color: #9295a8;
+  font-size: 14px;
+}
+
+/* Footer */
+.footer {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #eeeeF5;
+  text-align: center;
+  color: #999caf;
+  font-size: 12px;
+}
+
+/* Mobile responsive layout */
+@media (max-width: 480px) {
+  .container {
+    width: 94%;
+    margin: 25px auto;
+    padding: 20px 14px;
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .todo-form {
+    gap: 7px;
+  }
+
+  .todo-form button {
+    padding: 11px;
+  }
+
+  .todo-list li {
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

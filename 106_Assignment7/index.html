@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 7 - React Routing App</title>
+  <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e1e2f, #2d1f47, #1b2838);
+      color: #f1f5f9;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 25px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover {
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    header h1 {
+      font-size: 38px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 14px;
+      background: rgba(129, 140, 248, 0.15);
+      border: 1px solid rgba(129, 140, 248, 0.3);
+      border-radius: 20px;
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Router Simulator styling */
+    .router-simulator {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      max-width: 480px;
+      margin: 0 auto;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .browser-bar {
+      background: #1e293b;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .url-bar {
+      flex: 1;
+      background: #0f172a;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .url-bar span {
+      color: #38bdf8;
+    }
+
+    .simulator-body {
+      padding: 35px 25px;
+      background: #f0f4f8;
+      color: #1e293b;
+    }
+
+    .sim-card {
+      background: white;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .sim-card h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2563eb;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .sim-card input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .sim-card input:focus {
+      border-color: #2563eb;
+    }
+
+    .sim-card button {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .sim-card button:hover {
+      background: #1d4ed8;
+    }
+
+    .sim-card h2 {
+      margin-bottom: 16px;
+      font-size: 18px;
+      font-weight: 500;
+      color: #334155;
+    }
+
+    .sim-card h2 span {
+      color: #2563eb;
+      font-weight: 600;
+    }
+
+    /* Code block styling */
+    pre {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      margin-top: 15px;
+    }
+
+    .sub-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .sub-tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .sub-tab-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #818cf8;
+      color: #a5b4fc;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #64748b;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="../index.html" class="back-btn">← Back to All Assignments</a>
+
+  <header>
+    <h1>🧭 Assignment 7: React Routing</h1>
+    <p>Multi-page client-side navigation using React Router v7 & Vite</p>
+    <div class="badge">React Router DOM v7 • BrowserRouter • Routes • Route • useNavigate</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('demo')">⚡ Live Routing Demo</button>
+    <button class="tab-btn" onclick="switchTab('code')">💻 Source Code</button>
+    <button class="tab-btn" onclick="switchTab('setup')">📖 How to Run</button>
+  </div>
+
+  <!-- Tab 1: Live Demo -->
+  <div id="demo" class="tab-content active">
+    <div class="card">
+      <div class="router-simulator">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+          </div>
+          <div class="url-bar">
+            http://localhost:5173<span id="route-display">/</span>
+          </div>
+        </div>
+
+        <div class="simulator-body">
+          <!-- Route: / (Input Component) -->
+          <div id="route-input" class="sim-card">
+            <h1>Enter Your Details</h1>
+            <input type="text" id="name-input" placeholder="Enter Name" value="Shraddha Kalunge">
+            <input type="text" id="city-input" placeholder="Enter City" value="Pune">
+            <button onclick="navigate('/display')">Next →</button>
+          </div>
+
+          <!-- Route: /display (Display Component) -->
+          <div id="route-display-page" class="sim-card" style="display:none;">
+            <h1>Your Details</h1>
+            <h2>Name: <span id="disp-name">Shraddha Kalunge</span></h2>
+            <h2>City: <span id="disp-city">Pune</span></h2>
+            <button style="background:#64748b; margin-top:10px;" onclick="navigate('/')">← Back to Input</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Code Viewer -->
+  <div id="code" class="tab-content">
+    <div class="card">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="switchCode('app')">App.jsx</button>
+        <button class="sub-tab-btn" onclick="switchCode('input')">Input.jsx</button>
+        <button class="sub-tab-btn" onclick="switchCode('display')">Display.jsx</button>
+        <button class="sub-tab-btn" onclick="switchCode('css')">App.css</button>
+        <button class="sub-tab-btn" onclick="switchCode('pkg')">package.json</button>
+      </div>
+
+      <div id="code-app">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>src/App.jsx</code></p>
+        <pre><code>import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import Input from "./components/Input.jsx";
+import Display from "./components/Display.jsx";
+
+function App() {
+  const [name, setName] = useState("");
+  const [city, setCity] = useState("");
+
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Routes&gt;
+        &lt;Route
+          path="/"
+          element={
+            &lt;Input
+              setName={setName}
+              setCity={setCity}
+            /&gt;
+          }
+        /&gt;
+
+        &lt;Route
+          path="/display"
+          element={
+            &lt;Display
+              name={name}
+              city={city}
+            /&gt;
+          }
+        /&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+
+export default App;</code></pre>
+      </div>
+
+      <div id="code-input" style="display:none;">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>src/components/Input.jsx</code></p>
+        <pre><code>import { useNavigate } from "react-router-dom";
+import "../App.css";
+
+function Input({ setName, setCity }) {
+  const navigate = useNavigate();
+
+  return (
+    &lt;div className="container"&gt;
+      &lt;div className="card"&gt;
+        &lt;h1&gt;Enter Your Details&lt;/h1&gt;
+
+        &lt;input
+          type="text"
+          placeholder="Enter Name"
+          onChange={(e) =&gt; setName(e.target.value)}
+        /&gt;
+
+        &lt;input
+          type="text"
+          placeholder="Enter City"
+          onChange={(e) =&gt; setCity(e.target.value)}
+        /&gt;
+
+        &lt;button onClick={() =&gt; navigate("/display")}&gt;
+          Next
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Input;</code></pre>
+      </div>
+
+      <div id="code-display" style="display:none;">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>src/components/Display.jsx</code></p>
+        <pre><code>import "../App.css";
+
+function Display({ name, city }) {
+  return (
+    &lt;div className="container"&gt;
+      &lt;div className="card"&gt;
+        &lt;h1&gt;Your Details&lt;/h1&gt;
+
+        &lt;h2&gt;
+          Name: &lt;span&gt;{name || "Not entered"}&lt;/span&gt;
+        &lt;/h2&gt;
+
+        &lt;h2&gt;
+          City: &lt;span&gt;{city || "Not entered"}&lt;/span&gt;
+        &lt;/h2&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Display;</code></pre>
+      </div>
+
+      <div id="code-css" style="display:none;">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>src/App.css</code></p>
+        <pre><code>.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2563eb;
+  font-size: 28px;
+}
+
+.card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 16px;
+  outline: none;
+}
+
+.card button {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}</code></pre>
+      </div>
+
+      <div id="code-pkg" style="display:none;">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>package.json</code></p>
+        <pre><code>{
+  "name": "1",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "eslint": "^10.10.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.6",
+    "globals": "^17.12.0",
+    "vite": "^8.3.0"
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Setup Instructions -->
+  <div id="setup" class="tab-content">
+    <div class="card">
+      <h3 style="margin-bottom:12px; color:#818cf8;">🚀 Running the React Router Project Locally</h3>
+      <p style="color:#cbd5e1; margin-bottom:15px; font-size:14px;">Follow these steps to run this project with Vite and React Router on your machine:</p>
+      
+      <pre><code># 1. Navigate to Assignment 7 folder
+cd 106_Assignment7
+
+# 2. Install dependencies (React 19, react-router-dom & Vite)
+npm install
+
+# 3. Start development server
+npm run dev</code></pre>
+
+      <p style="color:#94a3b8; margin-top:15px; font-size:13px;">💡 Open <code>http://localhost:5173</code> to test the live browser navigation between routes.</p>
+    </div>
+  </div>
+
+  <footer>
+    Made with ❤️ by <b>Shraddha Kalunge</b> (Roll No: 106)
+  </footer>
+</div>
+
+<script>
+  let enteredName = "Shraddha Kalunge";
+  let enteredCity = "Pune";
+
+  function navigate(path) {
+    const routeDisplay = document.getElementById("route-display");
+    const routeInput = document.getElementById("route-input");
+    const routeDisplayPage = document.getElementById("route-display-page");
+
+    if (path === "/display") {
+      enteredName = document.getElementById("name-input").value.trim();
+      enteredCity = document.getElementById("city-input").value.trim();
+
+      document.getElementById("disp-name").innerText = enteredName || "Not entered";
+      document.getElementById("disp-city").innerText = enteredCity || "Not entered";
+
+      routeInput.style.display = "none";
+      routeDisplayPage.style.display = "block";
+      routeDisplay.innerText = "/display";
+    } else {
+      routeDisplayPage.style.display = "none";
+      routeInput.style.display = "block";
+      routeDisplay.innerText = "/";
+    }
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    event.target.classList.add("active");
+    document.getElementById(tabId).classList.add("active");
+  }
+
+  function switchCode(type) {
+    document.querySelectorAll(".sub-tab-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("code-app").style.display = type === "app" ? "block" : "none";
+    document.getElementById("code-input").style.display = type === "input" ? "block" : "none";
+    document.getElementById("code-display").style.display = type === "display" ? "block" : "none";
+    document.getElementById("code-css").style.display = type === "css" ? "block" : "none";
+    document.getElementById("code-pkg").style.display = type === "pkg" ? "block" : "none";
+    event.target.classList.add("active");
+  }
+</script>
+
+</body>
+</html>

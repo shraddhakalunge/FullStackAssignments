@@ -23,6 +23,7 @@ body{
     background:linear-gradient(135deg,#667eea,#764ba2,#6dd5ed);
     background-size:300% 300%;
     animation:bg 10s ease infinite;
+    padding: 50px 0;
 }
 
 @keyframes bg{
@@ -33,13 +34,13 @@ body{
 
 .container{
     width:90%;
-    max-width:1100px;
+    max-width:1150px;
     text-align:center;
 }
 
 h1{
     color:#fff;
-    font-size:50px;
+    font-size:46px;
     margin-bottom:10px;
 }
 
@@ -51,8 +52,8 @@ p{
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:30px;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
 }
 
 .card{
@@ -60,24 +61,29 @@ p{
     backdrop-filter:blur(15px);
     border:1px solid rgba(255,255,255,.25);
     border-radius:20px;
-    padding:35px;
+    padding:32px 25px;
     color:white;
     transition:.4s;
     box-shadow:0 15px 35px rgba(0,0,0,.2);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 .card:hover{
-    transform:translateY(-12px) scale(1.03);
+    transform:translateY(-10px) scale(1.02);
 }
 
 .card h2{
-    font-size:28px;
-    margin-bottom:15px;
+    font-size:24px;
+    margin-bottom:12px;
 }
 
 .card p{
-    font-size:15px;
-    margin-bottom:25px;
+    font-size:14.5px;
+    margin-bottom:22px;
+    color:#f1f5f9;
+    flex:1;
 }
 
 .btn{
@@ -85,15 +91,16 @@ p{
     text-decoration:none;
     color:white;
     background:#ff6b6b;
-    padding:12px 28px;
+    padding:11px 26px;
     border-radius:30px;
     transition:.3s;
     font-weight:600;
+    align-self:center;
 }
 
 .btn:hover{
     background:#ff4757;
-    transform:scale(1.08);
+    transform:scale(1.06);
 }
 
 footer{
@@ -109,7 +116,7 @@ footer{
 <div class="container">
 
 <h1>🚀 Full Stack Assignments</h1>
-<p>HTML • CSS • Bootstrap • Node.js Projects</p>
+<p>HTML • CSS • Bootstrap • Node.js • React Projects</p>
 
 <div class="cards">
 
@@ -137,10 +144,28 @@ footer{
 <a href="106_Assignment5/index.html" class="btn">View Project</a>
 </div>
 
+<div class="card">
+<h2>⚛️ Assignment 6</h2>
+<p>React Counter App with useState Hook</p>
+<a href="106_Assignment6/index.html" class="btn">View Project</a>
+</div>
+
+<div class="card">
+<h2>🧭 Assignment 7</h2>
+<p>Multi-Page React Routing with react-router-dom</p>
+<a href="106_Assignment7/index.html" class="btn">View Project</a>
+</div>
+
+<div class="card">
+<h2>📝 Assignment 8</h2>
+<p>React Todo List App with Full CRUD Operations</p>
+<a href="106_Assignment8/index.html" class="btn">View Project</a>
+</div>
+
 </div>
 
 <footer>
-Made with ❤️ by <b>Shraddha Kalunge</b>
+Made with ❤️ by <b>Shraddha Kalunge</b> (Roll No: 106)
 </footer>
 
 </div>

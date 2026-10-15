@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 6 - React Counter App</title>
+  <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e1e2f, #2d1f47, #1b2838);
+      color: #f1f5f9;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 25px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover {
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    header h1 {
+      font-size: 38px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 14px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Counter Live App Styles */
+    .counter-wrapper {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 40px 20px;
+      text-align: center;
+      max-width: 450px;
+      margin: 0 auto;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .counter-display {
+      margin-bottom: 30px;
+    }
+
+    .counter-label {
+      font-size: 15px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .counter-value {
+      font-size: 64px;
+      font-weight: 700;
+      color: #38bdf8;
+      font-family: 'Fira Code', monospace;
+      transition: transform 0.15s ease, color 0.2s ease;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .app-btn {
+      padding: 12px 22px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .app-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .app-btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-inc {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    .btn-inc:hover {
+      background: linear-gradient(135deg, #34d399, #10b981);
+    }
+
+    .btn-dec {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+    .btn-dec:hover {
+      background: linear-gradient(135deg, #f87171, #ef4444);
+    }
+
+    .btn-reset {
+      background: linear-gradient(135deg, #64748b, #475569);
+    }
+    .btn-reset:hover {
+      background: linear-gradient(135deg, #94a3b8, #64748b);
+    }
+
+    /* Code block styling */
+    pre {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      margin-top: 15px;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+
+    .sub-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .sub-tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .sub-tab-btn.active {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #64748b;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="../index.html" class="back-btn">← Back to All Assignments</a>
+
+  <header>
+    <h1>⚛️ Assignment 6: React Counter</h1>
+    <p>Managing reactive component state using React's <code>useState</code> hook</p>
+    <div class="badge">React 19 • Vite • Functional Components</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('demo')">⚡ Live Demo</button>
+    <button class="tab-btn" onclick="switchTab('code')">💻 Source Code</button>
+    <button class="tab-btn" onclick="switchTab('setup')">📖 How to Run</button>
+  </div>
+
+  <!-- Tab 1: Live Demo -->
+  <div id="demo" class="tab-content active">
+    <div class="card">
+      <div class="counter-wrapper">
+        <div class="counter-display">
+          <div class="counter-label">Current Count</div>
+          <div id="counter-value" class="counter-value">0</div>
+        </div>
+
+        <div class="btn-group">
+          <button class="app-btn btn-inc" onclick="updateCount(1)">➕ Increase</button>
+          <button class="app-btn btn-dec" onclick="updateCount(-1)">➖ Decrease</button>
+          <button class="app-btn btn-reset" onclick="resetCount()">🔄 Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Code Viewer -->
+  <div id="code" class="tab-content">
+    <div class="card">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="switchCode('jsx')">App.jsx</button>
+        <button class="sub-tab-btn" onclick="switchCode('css')">App.css</button>
+        <button class="sub-tab-btn" onclick="switchCode('pkg')">package.json</button>
+      </div>
+
+      <div id="code-jsx">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>src/App.jsx</code></p>
+        <pre><code>import { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;div className="container"&gt;
+      &lt;div className="counter"&gt;
+        &lt;h2&gt;Counter: {count}&lt;/h2&gt;
+
+        &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+          Increase
+        &lt;/button&gt;
+
+        &lt;button onClick={() =&gt; setCount(count - 1)}&gt;
+          Decrease
+        &lt;/button&gt;
+
+        &lt;button onClick={() =&gt; setCount(0)}&gt;
+          Reset
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+      </div>
+
+      <div id="code-css" style="display:none;">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>src/App.css</code></p>
+        <pre><code>.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter {
+  border: 1px solid black;
+  text-align: center;
+  padding: 5px 5px;
+}
+
+button {
+  color: white;
+  font-size: 1rem;
+  background-color: black;
+  margin: 0 10px;
+}</code></pre>
+      </div>
+
+      <div id="code-pkg" style="display:none;">
+        <p style="color:#94a3b8; font-size:13px;">File: <code>package.json</code></p>
+        <pre><code>{
+  "name": "assignment-6",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "vite": "^8.3.0"
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Setup Instructions -->
+  <div id="setup" class="tab-content">
+    <div class="card">
+      <h3 style="margin-bottom:12px; color:#38bdf8;">🚀 Running the Vite Project Locally</h3>
+      <p style="color:#cbd5e1; margin-bottom:15px; font-size:14px;">Follow these steps to run this React project on your local machine:</p>
+      
+      <pre><code># 1. Navigate to Assignment 6 folder
+cd 106_Assignment6
+
+# 2. Install dependencies (React 19 & Vite)
+npm install
+
+# 3. Start development server with Hot Module Replacement (HMR)
+npm run dev</code></pre>
+
+      <p style="color:#94a3b8; margin-top:15px; font-size:13px;">💡 Open <code>http://localhost:5173</code> in your browser to interact with the local development instance.</p>
+    </div>
+  </div>
+
+  <footer>
+    Made with ❤️ by <b>Shraddha Kalunge</b> (Roll No: 106)
+  </footer>
+</div>
+
+<script>
+  let count = 0;
+  const countEl = document.getElementById("counter-value");
+
+  function updateCount(delta) {
+    count += delta;
+    renderCount();
+  }
+
+  function resetCount() {
+    count = 0;
+    renderCount();
+  }
+
+  function renderCount() {
+    countEl.innerText = count;
+    countEl.style.transform = "scale(1.2)";
+    setTimeout(() => {
+      countEl.style.transform = "scale(1)";
+    }, 120);
+
+    if (count > 0) countEl.style.color = "#34d399";
+    else if (count < 0) countEl.style.color = "#f87171";
+    else countEl.style.color = "#38bdf8";
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    event.target.classList.add("active");
+    document.getElementById(tabId).classList.add("active");
+  }
+
+  function switchCode(type) {
+    document.querySelectorAll(".sub-tab-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById("code-jsx").style.display = type === "jsx" ? "block" : "none";
+    document.getElementById("code-css").style.display = type === "css" ? "block" : "none";
+    document.getElementById("code-pkg").style.display = type === "pkg" ? "block" : "none";
+    event.target.classList.add("active");
+  }
+</script>
+
+</body>
+</html>

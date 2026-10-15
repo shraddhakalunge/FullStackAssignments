@@ -1,0 +1,22 @@
+.container 
+{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter 
+{
+  border: 1px solid black;
+  text-align: center;
+  padding: 5px 5px;
+}
+
+button 
+{
+  color: white;
+  font-size: 1rem;
+  background-color: black;
+  margin: 0 10px;
+}
